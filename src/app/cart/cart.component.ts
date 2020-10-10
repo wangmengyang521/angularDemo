@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { window } from 'rxjs/operators';
+import { Router } from '@angular/router'
 
 import { CartService } from '../cart.service';
 
@@ -12,7 +13,7 @@ import { CartService } from '../cart.service';
       <h3>购物车</h3>
       <h3 (click)="onClear()" *ngIf="items.length">清空</h3>
       <p>
-        <a routerLink="/Shipping">Shipping Prices</a>
+        <a (click)="onShipping()">Shipping Prices</a>
       </p>
     </div>
     <div class="cart-item fontSize" *ngFor="let item of items">
@@ -48,6 +49,7 @@ export class CartComponent implements OnInit {
   constructor(
     private cartService: CartService,
     private formBuilder: FormBuilder,
+    private Router: Router,
   ) {
     this.checkoutForm = this.formBuilder.group({
       name: '',
@@ -56,8 +58,13 @@ export class CartComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.items = this.cartService.getItem();
+    this.getGoodsList()
   };
+
+  // 获取商品数据
+  getGoodsList() {
+    this.items = this.cartService.getItem();
+  }
 
   onDel(item) {
     this.items = this.items.filter(ite=>{
@@ -73,6 +80,14 @@ export class CartComponent implements OnInit {
   onBack() {
     history.go(-1)
   };
+
+  onShipping() {
+    if(!this.cartService.getItem().length) {
+      return alert('无商品,无法查看货运价格')
+    } else {
+      this.Router.navigate(['/Shipping'])
+    }
+  }
 
   // 表单提交
   onSubmit(customerData) {
