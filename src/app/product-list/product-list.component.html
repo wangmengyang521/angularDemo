@@ -1,0 +1,27 @@
+<!-- *ngFor for循环类似vue的v-for -->
+<div *ngFor="let product of products">
+
+  <h3>
+    <a [title]="product.name+' details'">
+      名称：{{ product.name }}
+    </a>
+    <div *ngIf="product.price > 100">
+      价格：{{ product.price }}
+    </div>
+    <!-- *ngIf 只有在当前有值得情况下才会渲染标签 -->
+    <div *ngIf="product.description">
+      描述：{{ product.description }}
+    </div>
+  </h3>
+  <div>
+    <button (click)="share(product)">分享</button>
+    <app-product-alerts [product]="product" (notify)="onNotify($event)"></app-product-alerts>
+  </div>
+</div>
+
+
+<!-- 
+Copyright Google LLC. All Rights Reserved.
+Use of this source code is governed by an MIT-style license that
+can be found in the LICENSE file at http://angular.io/license
+-->

@@ -1,0 +1,4 @@
+<!-- product即为传递过来的值 在父组件的标签上定义 子组件使用 -->
+<p *ngIf="product.price > 700">
+  <button (click)="notify.emit()">价格>700</button>
+</p>
